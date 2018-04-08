@@ -5,11 +5,11 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 import time
 
-# Login to Vancouver QA environment
+# Login to QA environment
 class AddNewContact():
 
     def addTest(self):
-        baseUrl = "http://vancouver.qa/"
+        # baseUrl = "http:"
         driver = webdriver.Chrome("C:/Users/idjorgon/PycharmProjects/libs/chromedriver.exe")
 
         # Window Maximize
@@ -42,7 +42,7 @@ class AddNewContact():
         if addContactById is not None:
             print("We found the Add New Contact button element")
 
-        # Find Welcome PureFacts Admin Message in order to confirm successful login
+        # Find Welcome Message in order to confirm successful login
         elementById = driver.find_element_by_id("label-2352")
         if elementById is not None:
             print("We found the Welcome Admin Message")
