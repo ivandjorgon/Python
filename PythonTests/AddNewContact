@@ -1,0 +1,85 @@
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.select import Select
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.ui import WebDriverWait
+import time
+
+# Login to Vancouver QA environment
+class AddNewContact():
+
+    def addTest(self):
+        baseUrl = "http://vancouver.qa/"
+        driver = webdriver.Chrome("C:/Users/idjorgon/PycharmProjects/libs/chromedriver.exe")
+
+        # Window Maximize
+        driver.maximize_window()
+        # Open the Url
+        driver.get(baseUrl)
+        # Wait a little bit
+        driver.implicitly_wait(5)
+        # Get Current Url
+        currentUrl = driver.current_url
+        print("Current Url of the web page is: " + currentUrl)
+
+        # Find Username field by ID, and populate it with Correct Username
+        usernameField = driver.find_element(By.ID, "textfield-1025-inputEl")
+        usernameField.send_keys("pfadmin")
+        # Find Password field by ID, and populate it with Correct Password
+        passwordField = driver.find_element(By.ID, "textfield-1026-inputEl")
+        passwordField.send_keys("password")
+        # Login to application
+        loginLink = driver.find_element(By.ID, "button-1030-btnWrap")
+        loginLink.click()
+
+        time.sleep(3)
+        # Click on Add New Contact button
+        # addContact = driver.find_element(By.ID, "button-1016-btnInnerEl")
+        # addContact.click()
+
+        # Find Add New Contact element by ID, in order to confirm successful login
+        addContactById = driver.find_element_by_id("button-1016-btnInnerEl")
+        if addContactById is not None:
+            print("We found the Add New Contact button element")
+
+        # Find Welcome PureFacts Admin Message in order to confirm successful login
+        elementById = driver.find_element_by_id("label-2352")
+        if elementById is not None:
+            print("We found the Welcome Admin Message")
+
+        # Get Title
+        title = driver.title
+        print("Title of the web page is: " + title)
+        # Get Current Url
+        currentUrl = driver.current_url
+        print("Current Url of the web page is: " + currentUrl)
+        time.sleep(6)
+
+        #testAddButton = driver.find_element(By.XPATH, "//body/div[2]/div[2]/div[2]/div/div[@role='presentation']//div[@role='group']/div[@role='presentation']/div[@role='presentation']/a[@role='button']/span[@role='presentation']/span[@role='presentation']/span[@class='x-btn-inner x-btn-inner-default-toolbar-small']")
+        testAddButton = driver.find_element(By.XPATH, "//span[@class='x-btn-inner x-btn-inner-default-toolbar-small']")
+        # Assert that the button is enabled
+        print("The button is enabled and set to: " + str(testAddButton.is_enabled()))
+        testAddButton.click()
+        #popupElement = driver.find_element(By.ID, "contactsaddeditwindow-3074-body")
+        #message = str(popupElement)
+        print("Add button works")
+
+        # First Name, Category, Language are mandatory fields
+        firstName = driver.find_element(By.XPATH, "//div[@role='presentation']/div[2]/table[@role='presentation']/tbody/tr[1]/td[1]//input[@role='textbox']")
+        firstName.send_keys("First")
+        time.sleep(2)
+
+        element = driver.find_element_by_id("ext-element-70")
+        sel = Select(element)
+        time.sleep(2)
+
+        cancelDialogButton = driver.find_element(By.XPATH, "//div[3]/div[@role='presentation']/div[@role='presentation']/a[1]/span[@role='presentation']/span[@role='presentation']/span[@class='x-btn-inner x-btn-inner-default-small']")
+        cancelDialogButton.click()
+
+        time.sleep(8)
+        # Browser Close / Quit
+        driver.close()
+        driver.quit()
+
+chromeTest = AddNewContact()
+chromeTest.addTest()
